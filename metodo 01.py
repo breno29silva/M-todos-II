@@ -1,23 +1,5 @@
-from PIL import Image
 import numpy as np
-import matplotlib.pyplot as plt
-import matplotlib.image as mpimg
-
-arquivo = open('nome.txt', 'w')
-
-
-def percorrerMatriz(matriz):
-    for i in matriz:
-        for j in i:
-            arquivo.writelines(str(j) + ' ')
-            #print(j, end=' ')
-        #print()
-        arquivo.writelines('\n')
-
-
-def output_image(name):
-    plt.imshow(name)
-    plt.show()
+import cv2
 
 def detectarBordas(img):
     M, N = img.shape
@@ -59,13 +41,16 @@ def detectarBordas(img):
 
     return imagemResultado
 
-# abrindo imagem colorida e convertendo imagem para tom de cinza
-img = Image.open('circle.png').convert('L')
-img.save("out.jpg", "JPEG", quality=80, optimize=True, progressive=True)
+def main():
+    # abrindo imagem colorida e convertendo imagem para tom de cinza
+    img = cv2.imread('cinza.png', cv2.IMREAD_GRAYSCALE)
 
-image = mpimg.imread("out.jpg")
-percorrerMatriz(np.array(image))
+    imageModificada = detectarBordas(img)
 
-image = detectarBordas(image)
+    cv2.imshow("Original", img)
+    cv2.imshow("Modifcada", imageModificada)
 
-output_image(image)
+    cv2.waitKey(0)
+
+if __name__ == '__main__':
+  main()
